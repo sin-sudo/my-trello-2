@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form class='addlist' @submit.prevent='addlist'>
+        <form :class="classList" @submit.prevent='addlist'>
             <input type="text" v-model="title" class="text-input" placeholder="Add new list" @focusin="startEditing" @focusout='finishEditing'>
             <button type="submit" class="add-button">Add</button>
         </form>
@@ -13,6 +13,15 @@ export default {
         return {
             title: '',
             isEditing: false,
+        }
+    },
+    computed: {
+        classList() {
+            const classList = ['addlist']
+            if (this.isEditing) {
+                classList.push('active')
+            }
+            return classList
         }
     },
     methods: {
