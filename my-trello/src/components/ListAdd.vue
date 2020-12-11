@@ -1,8 +1,9 @@
 <template>
     <div>
-        <form :class="classList" @submit.prevent='addlist'>
+        <form :class='classList' @submit.prevent='addlist'>
             <input type="text" v-model="title" class="text-input" placeholder="Add new list" @focusin="startEditing" @focusout='finishEditing'>
-            <button type="submit" class="add-button">Add</button>
+            <!-- フォームがフォーカス、もしくは入力されている時だけボタンを表示する -->
+            <button type="submit" class="add-button" v-if='isEditing || titleExists'>Add</button>
         </form>
     </div>
 </template>
@@ -21,7 +22,13 @@ export default {
             if (this.isEditing) {
                 classList.push('active')
             }
+            if (this.titleExists) {
+                classList.push('addable')
+            }
             return classList
+        },
+        titleExists() {
+            return this.title.length > 0
         }
     },
     methods: {
@@ -31,10 +38,10 @@ export default {
             this.title = ''
         },
         startEditing() {
-            this.Editing = true;
+            this.isEditing = true;
         },
         finishEditing() {
-            this.Editing = false;
+            this.isEditing = false;
         }
     }
 }
